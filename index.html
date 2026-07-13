@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>From Your Truck to Your List</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0f1117;
+            color: #f0f0f0;
+            line-height: 1.7;
+        }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 60px 24px;
+            background: linear-gradient(135deg, #0f1117 0%, #1a2035 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -40%;
+            left: -40%;
+            width: 180%;
+            height: 180%;
+            background: radial-gradient(circle at 60% 40%, rgba(255, 107, 53, 0.07) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255, 107, 53, 0.12);
+            border: 1px solid rgba(255, 107, 53, 0.3);
+            color: #ff6b35;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            padding: 7px 18px;
+            border-radius: 100px;
+            margin-bottom: 36px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.4rem, 9vw, 5rem);
+            font-weight: 800;
+            line-height: 1.08;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+
+        .hero h1 span { color: #ff6b35; }
+
+        .hero-sub {
+            font-size: clamp(1rem, 2.8vw, 1.3rem);
+            font-weight: 300;
+            color: rgba(240, 240, 240, 0.55);
+            max-width: 480px;
+            margin-bottom: 52px;
+            line-height: 1.7;
+        }
+
+        .hero-cta {
+            display: inline-block;
+            background: #ff6b35;
+            color: #fff;
+            font-weight: 700;
+            font-size: 1rem;
+            padding: 17px 38px;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .hero-cta:hover {
+            background: #e5581f;
+            transform: translateY(-2px);
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 36px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            color: rgba(240, 240, 240, 0.25);
+            font-size: 0.68rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .scroll-arrow {
+            width: 20px;
+            height: 20px;
+            border-right: 2px solid rgba(240, 240, 240, 0.2);
+            border-bottom: 2px solid rgba(240, 240, 240, 0.2);
+            transform: rotate(45deg);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: rotate(45deg) translateY(0); }
+            50% { transform: rotate(45deg) translateY(6px); }
+        }
+
+        /* CONTENT */
+        .content {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 72px 24px 48px;
+        }
+
+        /* CARDS */
+        .card {
+            background: #191e2d;
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 18px;
+            padding: 40px 36px;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+            transition: border-color 0.3s, transform 0.25s;
+        }
+
+        .card:hover {
+            border-color: rgba(255, 107, 53, 0.22);
+            transform: translateY(-3px);
+        }
+
+        .card-top-line {
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #ff6b35, transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .card:hover .card-top-line { opacity: 1; }
+
+        .card-num {
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: #ff6b35;
+            margin-bottom: 12px;
+        }
+
+        .card h2 {
+            font-size: clamp(1.3rem, 3.5vw, 1.85rem);
+            font-weight: 700;
+            color: #ffffff;
+            line-height: 1.2;
+            margin-bottom: 22px;
+        }
+
+        .card p {
+            font-size: 0.97rem;
+            color: rgba(240, 240, 240, 0.7);
+            margin-bottom: 14px;
+            line-height: 1.85;
+        }
+
+        .card p:last-child { margin-bottom: 0; }
+
+        .card.warm {
+            background: linear-gradient(135deg, #1c2240 0%, #1a1830 100%);
+            border-color: rgba(255, 107, 53, 0.18);
+        }
+
+        /* LIST */
+        .card-list {
+            list-style: none;
+            margin-top: 6px;
+        }
+
+        .card-list li {
+            padding: 13px 0 13px 22px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: rgba(240, 240, 240, 0.7);
+            font-size: 0.93rem;
+            line-height: 1.7;
+            position: relative;
+        }
+
+        .card-list li::before {
+            content: '—';
+            position: absolute;
+            left: 0;
+            color: #ff6b35;
+            font-weight: 600;
+        }
+
+        .card-list li:last-child { border-bottom: none; }
+
+        /* CALLOUT */
+        .callout {
+            border-left: 3px solid #ff6b35;
+            padding: 14px 20px;
+            margin: 24px 0 0;
+            background: rgba(255, 107, 53, 0.05);
+            border-radius: 0 8px 8px 0;
+        }
+
+        .callout p {
+            font-size: 1rem;
+            font-style: italic;
+            color: rgba(240, 240, 240, 0.85);
+            margin-bottom: 0;
+        }
+
+        /* STEPS */
+        .steps {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 14px;
+            margin-top: 22px;
+        }
+
+        .step {
+            background: rgba(255, 107, 53, 0.06);
+            border: 1px solid rgba(255, 107, 53, 0.14);
+            border-radius: 12px;
+            padding: 22px 24px;
+        }
+
+        .step-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.13em;
+            text-transform: uppercase;
+            color: #ff6b35;
+            margin-bottom: 8px;
+        }
+
+        .step p {
+            font-size: 0.88rem;
+            color: rgba(240, 240, 240, 0.65);
+            margin-bottom: 0;
+            line-height: 1.75;
+        }
+
+        /* GRID */
+        .capture-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-top: 22px;
+        }
+
+        @media (max-width: 480px) {
+            .capture-grid { grid-template-columns: 1fr; }
+        }
+
+        .capture-item {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .capture-item h4 {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #ff6b35;
+            margin-bottom: 10px;
+        }
+
+        .capture-item p {
+            font-size: 0.84rem;
+            color: rgba(240, 240, 240, 0.58);
+            margin-bottom: 0;
+            line-height: 1.7;
+        }
+
+        /* TWO COL */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-top: 22px;
+        }
+
+        @media (max-width: 480px) {
+            .two-col { grid-template-columns: 1fr; }
+        }
+
+        .col-block {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .col-block h4 {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        .col-block p {
+            font-size: 0.84rem;
+            color: rgba(240, 240, 240, 0.58);
+            margin-bottom: 0;
+            line-height: 1.7;
+        }
+
+        .card-footnote {
+            font-size: 0.82rem;
+            color: rgba(240, 240, 240, 0.35);
+            margin-top: 18px;
+            margin-bottom: 0;
+        }
+
+        /* OUTRO */
+        .outro {
+            background: #0a0e1a;
+            padding: 96px 24px;
+            text-align: center;
+            position: relative;
+        }
+
+        .outro::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 107, 53, 0.35), transparent);
+        }
+
+        .outro-inner {
+            max-width: 520px;
+            margin: 0 auto;
+        }
+
+        .outro h2 {
+            font-size: clamp(2rem, 6vw, 3.2rem);
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1.12;
+            margin-bottom: 20px;
+        }
+
+        .outro h2 span { color: #ff6b35; }
+
+        .outro p {
+            font-size: 1rem;
+            color: rgba(240, 240, 240, 0.55);
+            margin-bottom: 40px;
+            line-height: 1.85;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            background: #ff6b35;
+            color: #fff;
+            font-weight: 700;
+            font-size: 1rem;
+            padding: 18px 44px;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .cta-btn:hover {
+            background: #e5581f;
+            transform: translateY(-2px);
+        }
+
+        .cta-note {
+            display: block;
+            font-size: 0.8rem;
+            color: rgba(240, 240, 240, 0.3);
+            margin-top: 16px;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #070a10;
+            padding: 36px 24px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .footer-brand {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 10px;
+            letter-spacing: 0.02em;
+        }
+
+        .footer-brand span { color: #ff6b35; }
+
+        footer p {
+            font-size: 0.78rem;
+            color: rgba(240, 240, 240, 0.22);
+            line-height: 1.7;
+        }
+
+        @media (max-width: 600px) {
+            .card { padding: 28px 20px; }
+            .content { padding: 48px 16px 32px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-badge">Built for HVAC Professionals</div>
+    <h1>From Your <span>Truck</span><br>to Your List</h1>
+    <p class="hero-sub">A system for the guy who runs the business from the front seat of a van</p>
+    <a href="#contact" class="hero-cta">Get Early Access</a>
+    <div class="scroll-hint">
+        <span>Scroll</span>
+        <div class="scroll-arrow"></div>
+    </div>
+</section>
+
+<!-- CARDS -->
+<div class="content">
+
+    <div class="card">
+        <div class="card-top-line"></div>
+        <div class="card-num">01</div>
+        <h2>Your Office Is a Truck</h2>
+        <p>Your desk is a dashboard. Your filing cabinet is the back of the van. Your assistant is your phone — and your phone is also your GPS, your parts lookup, your client history, and the thing your kid keeps texting.</p>
+        <p>You are running a business at 65 miles an hour between two calls and a parts run. Most systems were not built for that. This one was.</p>
+    </div>
+
+    <div class="card">
+        <div class="card-top-line"></div>
+        <div class="card-num">02</div>
+        <h2>What Falls Through the Cracks</h2>
+        <ul class="card-list">
+            <li>The part you need for the Hendersons that you thought about at 6am and forgot by 8</li>
+            <li>The filter size at the commercial account on Route 9 that you know you wrote down somewhere</li>
+            <li>The callback you promised Mrs. DiAngelo when the new unit comes in</li>
+            <li>The refrigerant you used up Tuesday that is not on the reorder yet</li>
+            <li>The thing the building manager told you about the east side compressors that your guy needs to know</li>
+        </ul>
+        <div class="callout">
+            <p>None of this is forgetting. All of this is the system not keeping up with you.</p>
+        </div>
+    </div>
+
+    <div class="card warm">
+        <div class="card-top-line"></div>
+        <div class="card-num">03</div>
+        <h2>The Real Cost</h2>
+        <p>Every missed callback is a potential lost client. Every wrong part on the truck is a second trip you did not bill for. Every undocumented service call is a warranty dispute waiting to happen.</p>
+        <p>Every conversation you had with a building manager that lives only in your head is a liability. This is not about being more organized. This is about protecting the business you already built.</p>
+    </div>
+
+    <div class="card">
+        <div class="card-top-line"></div>
+        <div class="card-num">04</div>
+        <h2>Head to List, With Love</h2>
+        <p>A voice-first workflow that captures everything you are already thinking while you are driving between jobs. You talk. The system listens. You get a clean working document by the time you pull into the next driveway.</p>
+        <p>No typing while driving. No app to learn. No system to maintain. Just talk.</p>
+    </div>
+
+    <div class="card">
+        <div class="card-top-line"></div>
+        <div class="card-num">05</div>
+        <h2>How It Works For You</h2>
+        <div class="steps">
+            <div class="step">
+                <div class="step-label">Between Jobs — Record</div>
+                <p>Leaving the Hendersons. Talk through what you did, what you need, what you promised, what broke. Thirty seconds. Done.</p>
+            </div>
+            <div class="step">
+                <div class="step-label">End of Day — Process</div>
+                <p>Everything you said all day gets pulled into tasks, inventory notes, client updates, and follow-ups. Automatically. Dated. Bucketed.</p>
+            </div>
+            <div class="step">
+                <div class="step-label">Start of Day — Review</div>
+                <p>One clean list. What is on the truck. Who needs a call. What to pick up at the supply house. What your guy needs to know.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-top-line"></div>
+        <div class="card-num">06</div>
+        <h2>What Gets Captured</h2>
+        <div class="capture-grid">
+            <div class="capture-item">
+                <h4>Client Layer</h4>
+                <p>Equipment at each address. What was done. What was quoted. What they said. What you promised.</p>
+            </div>
+            <div class="capture-item">
+                <h4>Truck Layer</h4>
+                <p>What you used. What is low. What needs to be on tomorrow's list before you leave the supply house.</p>
+            </div>
+            <div class="capture-item">
+                <h4>Job Layer</h4>
+                <p>Sequencing. Access notes. Who to call before you show up. Commercial contact names. Building manager preferences.</p>
+            </div>
+            <div class="capture-item">
+                <h4>Business Layer</h4>
+                <p>Callbacks. Quotes to follow up. Warranty items. Seasonal prep. What your guy needs before he goes out.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-top-line"></div>
+        <div class="card-num">07</div>
+        <h2>Residential and Commercial.<br>Two Animals. One System.</h2>
+        <div class="two-col">
+            <div class="col-block">
+                <h4>Residential</h4>
+                <p>Mrs. DiAngelo calls you by name. She has the same Carrier unit since 2019. She will refer three neighbors if you remember her dog is named Biscuit.</p>
+            </div>
+            <div class="col-block">
+                <h4>Commercial</h4>
+                <p>The building manager does not care what you remember. He cares what is documented. The system gives you that.</p>
+            </div>
+        </div>
+        <p class="card-footnote">Same workflow. Same voice recording. Different buckets.</p>
+    </div>
+
+    <div class="card warm">
+        <div class="card-top-line"></div>
+        <div class="card-num">08</div>
+        <h2>You Are Already Doing This</h2>
+        <p>You are already narrating your day. You call your wife between jobs. You leave yourself voice memos you never process. You walk a new tech through a job by talking out loud.</p>
+        <p>The thinking is already there. The capture is already there. The only missing piece is the system that turns it into something you can actually use.</p>
+    </div>
+
+</div>
+
+<!-- OUTRO -->
+<section class="outro" id="contact">
+    <div class="outro-inner">
+        <h2>Built for the Guy<br>in the <span>Van</span></h2>
+        <p>Your truck is your office. Your voice is your keyboard. Your day is already full. This is the system that keeps up with you.</p>
+        <a href="mailto:your@email.com" class="cta-btn">Get Early Access</a>
+        <span class="cta-note">No app to download. No system to learn. Just talk.</span>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-brand">Head to List, <span>With Love</span></div>
+    <p>Built for the people who run their business from wherever the work takes them.<br>&copy; 2025 Head to List, With Love. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
